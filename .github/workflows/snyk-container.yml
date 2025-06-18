@@ -35,15 +35,15 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Build a Docker image
-      run: docker build -t your/image-to-test .
-
     - name: Sanitize repo slug
       uses: actions/github-script@v7
       id: repo_slug
       with:
         result-encoding: string
         script: return '${{ github.repository }}'.toLowerCase()
+
+    - name: Build a Docker image
+      run: docker build -t ${{ steps.repo_slug.outputs.result }} .
 
     - name: Run Snyk to check Docker image for vulnerabilities
       # Snyk can be used to break the build when it detects vulnerabilities.
