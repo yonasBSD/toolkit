@@ -39,13 +39,12 @@ RUN dra download --automatic numtide/treefmt && mkdir treefmt && tar -xvf treefm
 
 
 #checkov:skip=CKV_DOCKER_7: allow use of latest tag
-#FROM cgr.dev/chainguard/wolfi-base:latest
+FROM cgr.dev/chainguard/wolfi-base:latest
 
-#COPY --from=build /usr/local/bin /usr/local/bin
+COPY --from=build /usr/local/bin /usr/local/bin
 RUN chmod +x /usr/local/bin/*
 
-##RUN apk update && apk --no-cache add cosign bash libxml2 libcurl-rustls4 wget xh rsync git
-#RUN apk update && apk --no-cache add cosign bash clang libxml2 libcurl-rustls4 rust
+RUN apk update && apk --no-cache add cosign bash curl
 
 # Set the working directory inside the container
 WORKDIR /usr/src
