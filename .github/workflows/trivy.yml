@@ -29,17 +29,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Sanitize repo slug
+        uses: actions/github-script@v7
+        id: repo_slug
+        with:
+          result-encoding: string
+          script: return '${{ github.repository }}'.toLowerCase()
+
       - name: Build an image from Dockerfile
         run: |
           docker build -t docker.io/my-organization/my-app:${{ github.sha }} .
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+        uses: aquasecurity/trivy-action
         with:
-          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
+          image-ref: 'docker.io/${{ steps.repo_slug.outputs.result }}:${{ github.sha }}'
+          format: 'sarif'
           output: 'trivy-results.sarif'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
 
       - name: Upload Trivy scan results to GitHub Security tab
