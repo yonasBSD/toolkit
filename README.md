@@ -47,7 +47,28 @@ jobs:
         id: print-to-log
         uses: yonasBSD/toolkit@main
         with:
-          who-to-greet: ${{ inputs.who-to-greet }}
+          run: |
+            comtrya --version
+            just --version
+            task --version
+            trufflehog --version
+            trivy --version
+            kcl --version
+            rcl --version
+            b3sum --version
+            bash --version
+            venom version
+            hurl --version
+            typst --version
+            treefmt --version
+            pipelight --version
+            minijinja --version
+            cosign version
+            cargo-binstall -V
+            cargo-deny --version
+            cargo-audit --version
+            ls /usr/local/bin/cargo-auditable
+            ls /usr/local/bin/cargo-license
 ```
 
 For example workflow runs, check out the
