@@ -33,15 +33,25 @@ jobs:
     steps:
     - name: Check out the code
       uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag localbuild/testimage:latest
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build local container
+      uses: docker/build-push-action@v4
+      with:
+        tags: localbuild/testimage:latest
+        push: false
+        load: true
+
     - name: Run the Anchore Grype scan action
-      uses: anchore/scan-action@d5aa5b6cb9414b0c7771438046ff5bcfa2854ed7
+      uses: anchore/scan-action@v6
       id: scan
       with:
         image: "localbuild/testimage:latest"
         fail-build: true
         severity-cutoff: critical
+
     - name: Upload vulnerability report
       uses: github/codeql-action/upload-sarif@v3
       with:
