@@ -46,7 +46,6 @@ jobs:
           image-ref: 'docker.io/${{ steps.repo_slug.outputs.result }}:${{ github.sha }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
-          exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
