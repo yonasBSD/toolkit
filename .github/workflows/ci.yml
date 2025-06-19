@@ -43,6 +43,7 @@ jobs:
             cargo-audit --version
             ls /usr/local/bin/cargo-auditable
             ls /usr/local/bin/cargo-license
+            ds -d 20 -m 10 /
 
   test-action-remote:
     name: GitHub Actions Test (Docker Hub)

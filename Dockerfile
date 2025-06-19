@@ -34,6 +34,7 @@ RUN curl -sL -o docker-assets-cargo-auditable.zip https://github.com/yonasBSD/to
 RUN cargo binstall -y cargo-audit && mv /root/.cargo/bin/cargo-audit /usr/local/bin
 RUN cargo binstall -y cargo-deny && mv /root/.cargo/bin/cargo-deny /usr/local/bin
 RUN cargo binstall -y cargo-license && mv /root/.cargo/bin/cargo-license /usr/local/bin
+RUN cargo binstall -y dirstat-rs && mv /root/.cargo/bin/ds /usr/local/bin
 
 # Run dra installs
 # Some projects don't have binaries for arch that chainguard/wolfi-base uses
