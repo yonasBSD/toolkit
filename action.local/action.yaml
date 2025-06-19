@@ -1,0 +1,20 @@
+name: yonasBSD-toolkit
+description: The yonasBSD Toolkit
+author: yonasBSD
+
+branding:
+  icon: 'box'
+  color: 'green'
+
+# Define your inputs here.
+inputs:
+  run:
+    description: Commands to run
+    required: true
+    default: echo Hello World
+
+runs:
+  using: docker
+  image: ../Dockerfile
+  env:
+    INPUT_RUN: ${{ inputs.run }}

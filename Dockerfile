@@ -5,9 +5,10 @@ FROM cgr.dev/chainguard/wolfi-base:latest AS build
 LABEL org.opencontainers.image.source=https://github.com/yonasBSD/toolkit
 
 #RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-RUN apk update && apk --no-cache add cosign bash curl clang openssl-dev libxml2-dev libcurl-rustls4 pkgconf rust go linux-headers
+RUN apk update && apk --no-cache add cosign bash curl rust
 
 # Run curl installs
+RUN mkdir -p /usr/local/bin
 RUN curl -fsSL https://get.comtrya.dev > comtrya.sh && sh comtrya.sh
 RUN curl -fsSL https://just.systems/install.sh > just.sh && bash just.sh --to /usr/local/bin
 RUN curl -fsSL https://taskfile.dev/install.sh > task.sh && sh task.sh -d -b /usr/local/bin
@@ -30,6 +31,7 @@ RUN curl -sL -o docker-assets-cargo-auditable.zip https://github.com/yonasBSD/to
 #RUN cargo install --locked --git https://github.com/devmatteini/dra && mv /root/.cargo/bin/dra /usr/local/bin
 
 # Run cargo-binstall
+RUN cargo binstall -y cargo-audit && mv /root/.cargo/bin/cargo-audit /usr/local/bin
 RUN cargo binstall -y cargo-deny && mv /root/.cargo/bin/cargo-deny /usr/local/bin
 RUN cargo binstall -y cargo-license && mv /root/.cargo/bin/cargo-license /usr/local/bin
 
