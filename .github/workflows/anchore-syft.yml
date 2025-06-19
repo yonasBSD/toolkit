@@ -3,36 +3,65 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-# This workflow checks out code, builds an image, performs a container image
-# scan with Anchore's Syft tool, and uploads the results to the GitHub Dependency
-# submission API.
+# A sample workflow which checks out the code, builds a container
+# image using Docker and scans that image for vulnerabilities using
+# Snyk. The results are then uploaded to GitHub Security Code Scanning
+#
+# For more examples, including how to limit scans to only high-severity
+# issues, monitor images for newly disclosed vulnerabilities in Snyk and
+# fail PR checks for new vulnerabilities, see https://github.com/snyk/actions/
 
-# For more information on the Anchore sbom-action usage
-# and parameters, see https://github.com/anchore/sbom-action. For more
-# information about the Anchore SBOM tool, Syft, see
-# https://github.com/anchore/syft
-name: Anchore Syft SBOM scan
+name: Snyk Container
 
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "main" ]
+  schedule:
+    - cron: '18 14 * * 0'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  Anchore-Build-Scan:
+  snyk:
     permissions:
-      contents: write # required to upload to the Dependency submission API
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      # only required for a private repository by
+      # github/codeql-action/upload-sarif to get the Action run status
+      actions: read
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout the code
-      uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag localbuild/testimage:latest
-    - name: Scan the image and upload dependency results
-      uses: anchore/sbom-action@v0
+    - uses: actions/checkout@v4
+
+    - name: Sanitize repo slug
+      uses: actions/github-script@v7
+      id: repo_slug
       with:
-        image: "localbuild/testimage:latest"
-        artifact-name: image.spdx.json
-        dependency-snapshot: true
+        result-encoding: string
+        script: return '${{ github.repository }}'.toLowerCase()
+
+    - name: Build a Docker image
+      run: docker build -t ${{ steps.repo_slug.outputs.result }} .
+
+    - name: Run Snyk to check Docker image for vulnerabilities
+      # Snyk can be used to break the build when it detects vulnerabilities.
+      # In this case we want to upload the issues to GitHub Code Scanning
+      continue-on-error: true
+      uses: snyk/actions/docker@master
+      env:
+        # In order to use the Snyk Action you will need to have a Snyk API token.
+        # More details in https://github.com/snyk/actions#getting-your-snyk-token
+        # or you can signup for free at https://snyk.io/login
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        image: ${{ steps.repo_slug.outputs.result }}
+        args: --file=Dockerfile
+
+    - name: Upload result to GitHub Code Scanning
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: snyk.sarif
