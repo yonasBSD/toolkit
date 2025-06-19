@@ -1,0 +1,136 @@
+name: Docker assets
+
+on:
+  release:
+    types: [created]
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  upload-rcl:
+    name: Upload RCL
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build assets
+        run: |
+          cargo install --git https://github.com/ruuda/rcl rcl
+          zip docker-assets-rcl.zip ~/.cargo/bin/rcl
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./docker-assets-rcl.zip
+          asset_name: docker-assets-rcl.zip
+          asset_content_type: application/zip
+
+  upload-kcl:
+    name: Upload KCL
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build assets
+        run: |
+          go install kcl-lang.io/cli/cmd/kcl@latest
+          zip docker-assets-kcl.zip ~/go/bin/kcl*
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./docker-assets-kcl.zip
+          asset_name: docker-assets-kcl.zip
+          asset_content_type: application/zip
+
+  upload-pipelight:
+    name: Upload Pipelight
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build assets
+        run: |
+          cargo install --git https://github.com/pipelight/pipelight
+          zip docker-assets-pipelight.zip ~/.cargo/bin/pipelight*
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./docker-assets-pipelight.zip
+          asset_name: docker-assets-pipelight.zip
+          asset_content_type: application/zip
+
+  upload-hurl:
+    name: Upload Hurl
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build assets
+        run: |
+          cargo install --git https://github.com/Orange-OpenSource/hurl hurl hurlfmt
+          zip docker-assets-hurl.zip ~/.cargo/bin/hurl*
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./docker-assets-hurl.zip
+          asset_name: docker-assets-hurl.zip
+          asset_content_type: application/zip
+
+  upload-dra:
+    name: Upload Dra
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build assets
+        run: |
+          cargo install --locked --git https://github.com/devmatteini/dra
+          zip docker-assets-dra.zip ~/.cargo/bin/dra
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./docker-assets-dra.zip
+          asset_name: docker-assets-dra.zip
+          asset_content_type: application/zip
+
+  upload-cargo-auditable:
+    name: Upload Cargo Auditable
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build assets
+        run: |
+          cargo install cargo-auditable
+          zip docker-assets-cargo-auditable.zip ~/.cargo/bin/cargo-auditable
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./docker-assets-cargo-auditable.zip
+          asset_name: docker-assets-cargo-auditable.zip
+          asset_content_type: application/zip
