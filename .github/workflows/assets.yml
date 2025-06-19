@@ -1,0 +1,35 @@
+name: Docker assets
+
+on:
+  release:
+    types:
+      - published
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  upload-assets:
+    name: Upload Release Assets
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build assets
+        run: |
+          cargo install --git https://github.com/ruuda/rcl rcl
+          cargo install --git https://github.com/pipelight/pipelight
+          cargo install --git https://github.com/Orange-OpenSource/hurl hurl hurlfmt
+          cargo install --locked --git https://github.com/devmatteini/dra
+          zip -r docker-assets.zip ~/.cargo/bin/*
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./docker-assets.zip
+          asset_name: docker-assets.zip
+          asset_content_type: application/zip

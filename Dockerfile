@@ -18,11 +18,14 @@ RUN curl -fsSL https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/
 # Run Go installs
 RUN go install kcl-lang.io/cli/cmd/kcl@latest && mv /root/go/bin/kcl /usr/local/bin
 
+# Download from release assets
+RUN curl -sL -o docker-assets.zip https://github.com/yonasBSD/toolkit/releases/latest/download/docker-assets.zip && \
+    unzip docker-assets.zip -d /usr/local/bin
 # Run cargo installs
-RUN cargo install --git https://github.com/ruuda/rcl rcl && mv /root/.cargo/bin/rcl /usr/local/bin
-RUN cargo install --git https://github.com/pipelight/pipelight && mv /root/.cargo/bin/pipelight /usr/local/bin
-RUN cargo install --git https://github.com/Orange-OpenSource/hurl hurl hurlfmt && mv /root/.cargo/bin/hurl* /usr/local/bin
-RUN cargo install --locked --git https://github.com/devmatteini/dra && mv /root/.cargo/bin/dra /usr/local/bin
+#RUN cargo install --git https://github.com/ruuda/rcl rcl && mv /root/.cargo/bin/rcl /usr/local/bin
+#RUN cargo install --git https://github.com/pipelight/pipelight && mv /root/.cargo/bin/pipelight /usr/local/bin
+#RUN cargo install --git https://github.com/Orange-OpenSource/hurl hurl hurlfmt && mv /root/.cargo/bin/hurl* /usr/local/bin
+#RUN cargo install --locked --git https://github.com/devmatteini/dra && mv /root/.cargo/bin/dra /usr/local/bin
 
 # Run cargo-binstall
 RUN cargo binstall -y cargo-auditable cargo-audit && mv /root/.cargo/bin/cargo-audit* /usr/local/bin
