@@ -35,6 +35,7 @@ jobs:
             venom version
             typst --version
             treefmt --version
+            dprint --version
             pipelight --version
             minijinja --version
             rsign --version
@@ -68,6 +69,7 @@ jobs:
             venom version
             typst --version
             treefmt --version
+            dprint --version
             pipelight --version
             minijinja --version
             rsign --version
