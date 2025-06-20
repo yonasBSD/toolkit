@@ -10,6 +10,9 @@ on:
 env:
   CARGO_TERM_COLOR: always
 
+permissions:
+  contents: write
+
 jobs:
   fmt:
     name: Prettier
@@ -19,6 +22,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Prettier
-        uses: AbdulRehman-1/pr-prettier@latest
+        uses: AbdulRehman-1/pr-prettier@initial
         with:
           prettier_options: --write **/*.{js,md,yaml,yml}
