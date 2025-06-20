@@ -7,10 +7,10 @@ name: trivy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "main" ]
+    branches: ['main']
   schedule:
     - cron: '41 18 * * 3'
 
@@ -46,7 +46,8 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'docker.io/${{ steps.repo_slug.outputs.result }}:${{ github.sha }}'
+          image-ref:
+            'docker.io/${{ steps.repo_slug.outputs.result }}:${{ github.sha }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
           ignore-unfixed: true
