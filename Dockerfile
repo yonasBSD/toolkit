@@ -23,6 +23,7 @@ RUN curl -sL -o docker-assets-pipelight.zip https://github.com/yonasBSD/toolkit/
 RUN curl -sL -o docker-assets-hurl.zip https://github.com/yonasBSD/toolkit/releases/latest/download/docker-assets-hurl.zip && unzip -jo docker-assets-hurl.zip -d /usr/local/bin
 RUN curl -sL -o docker-assets-dra.zip https://github.com/yonasBSD/toolkit/releases/latest/download/docker-assets-dra.zip && unzip -jo docker-assets-dra.zip -d /usr/local/bin
 RUN curl -sL -o docker-assets-cargo-auditable.zip https://github.com/yonasBSD/toolkit/releases/latest/download/docker-assets-cargo-auditable.zip && unzip -jo docker-assets-cargo-auditable.zip -d /usr/local/bin
+RUN curl -sL -o docker-assets-venom.zip https://github.com/yonasBSD/toolkit/releases/latest/download/docker-assets-venom.zip && unzip -jo docker-assets-venom.zip -d /usr/local/bin
 
 # Run cargo installs
 #RUN cargo install --git https://github.com/ruuda/rcl rcl && mv /root/.cargo/bin/rcl /usr/local/bin
@@ -38,7 +39,6 @@ RUN cargo binstall -y dirstat-rs && mv /root/.cargo/bin/ds /usr/local/bin
 
 # Run dra installs
 # Some projects don't have binaries for arch that chainguard/wolfi-base uses
-RUN dra download --automatic --install --output /usr/local/bin/venom ovh/venom
 RUN dra download --automatic --install --output /usr/local/bin/b3sum BLAKE3-team/BLAKE3
 RUN dra download --automatic typst/typst && mkdir typst && tar -xvf typst*tar.xz --directory typst --strip-components 1 && mv typst/typst /usr/local/bin && rm -rf typst
 RUN dra download --automatic mitsuhiko/minijinja && mkdir minijinja && tar -xvf minijinja*tar.xz --directory minijinja --strip-components 1 && mv minijinja/minijinja-cli /usr/local/bin/minijinja && rm -rf minijinja
