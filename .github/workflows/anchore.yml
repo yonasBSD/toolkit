@@ -12,10 +12,10 @@ name: Anchore Grype vulnerability scan
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "main" ]
+    branches: ['main']
   schedule:
     - cron: '42 2 * * 0'
 
@@ -34,28 +34,28 @@ jobs:
       actions: read
     runs-on: ubuntu-latest
     steps:
-    - name: Check out the code
-      uses: actions/checkout@v4
+      - name: Check out the code
+        uses: actions/checkout@v4
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Build local container
-      uses: docker/build-push-action@v6
-      with:
-        tags: localbuild/testimage:latest
-        push: false
-        load: true
+      - name: Build local container
+        uses: docker/build-push-action@v6
+        with:
+          tags: localbuild/testimage:latest
+          push: false
+          load: true
 
-    - name: Run the Anchore Grype scan action
-      uses: anchore/scan-action@v6
-      id: scan
-      with:
-        image: "localbuild/testimage:latest"
-        fail-build: false
-        severity-cutoff: critical
+      - name: Run the Anchore Grype scan action
+        uses: anchore/scan-action@v6
+        id: scan
+        with:
+          image: 'localbuild/testimage:latest'
+          fail-build: false
+          severity-cutoff: critical
 
-    - name: Upload vulnerability report
-      uses: github/codeql-action/upload-sarif@v3
-      with:
-        sarif_file: ${{ steps.scan.outputs.sarif }}
+      - name: Upload vulnerability report
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.scan.outputs.sarif }}
