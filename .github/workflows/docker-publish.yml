@@ -1,11 +1,16 @@
 name: Publish Docker Image
 
 on: # yamllint disable-line rule:truthy
-  push:
-    branches:
-      - main
-    tags:
-      - 'v*.*.*'
+  #push:
+  #  branches:
+  #    - main
+  #  tags:
+  #    - 'v*.*.*'
+  workflow_run:
+    workflows:
+      - 'Docker assets'
+    types:
+      - completed
 
 permissions:
   contents: read

@@ -10,13 +10,48 @@ permissions:
   contents: read
 
 jobs:
-  test-action:
-    name: GitHub Actions Test
+  test-action-local:
+    name: GitHub Actions Test (local)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test Local Action
+        id: test-action-local
+        uses: ./action.local
+        with:
+          run: |
+            comtrya --version
+            just --version
+            task --version
+            trufflehog --version
+            trivy --version
+            kcl --version
+            rcl --version
+            b3sum --version
+            bash --version
+            venom version
+            typst --version
+            treefmt --version
+            pipelight --version
+            minijinja --version
+            cosign version
+            cargo-binstall -V
+            cargo-deny --version
+            cargo-audit --version
+            ls /usr/local/bin/cargo-auditable
+            ls /usr/local/bin/cargo-license
+            ds -d 20 -m 10 /
+
+  test-action-remote:
+    name: GitHub Actions Test (Docker Hub)
     runs-on: ubuntu-latest
 
     steps:
       - name: Test action
-        id: test-action
+        id: test-action-remote
         uses: yonasBSD/toolkit@main
         with:
           run: |
@@ -30,7 +65,6 @@ jobs:
             b3sum --version
             bash --version
             venom version
-            hurl --version
             typst --version
             treefmt --version
             pipelight --version
