@@ -15,10 +15,10 @@ name: Snyk Container
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "main" ]
+    branches: ['main']
   schedule:
     - cron: '18 14 * * 0'
 
@@ -35,33 +35,33 @@ jobs:
       actions: read
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Sanitize repo slug
-      uses: actions/github-script@v7
-      id: repo_slug
-      with:
-        result-encoding: string
-        script: return '${{ github.repository }}'.toLowerCase()
+      - name: Sanitize repo slug
+        uses: actions/github-script@v7
+        id: repo_slug
+        with:
+          result-encoding: string
+          script: return '${{ github.repository }}'.toLowerCase()
 
-    - name: Build a Docker image
-      run: docker build -t ${{ steps.repo_slug.outputs.result }} .
+      - name: Build a Docker image
+        run: docker build -t ${{ steps.repo_slug.outputs.result }} .
 
-    - name: Run Snyk to check Docker image for vulnerabilities
-      # Snyk can be used to break the build when it detects vulnerabilities.
-      # In this case we want to upload the issues to GitHub Code Scanning
-      continue-on-error: true
-      uses: snyk/actions/docker@master
-      env:
-        # In order to use the Snyk Action you will need to have a Snyk API token.
-        # More details in https://github.com/snyk/actions#getting-your-snyk-token
-        # or you can signup for free at https://snyk.io/login
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        image: ${{ steps.repo_slug.outputs.result }}
-        args: --file=Dockerfile
+      - name: Run Snyk to check Docker image for vulnerabilities
+        # Snyk can be used to break the build when it detects vulnerabilities.
+        # In this case we want to upload the issues to GitHub Code Scanning
+        continue-on-error: true
+        uses: snyk/actions/docker@master
+        env:
+          # In order to use the Snyk Action you will need to have a Snyk API token.
+          # More details in https://github.com/snyk/actions#getting-your-snyk-token
+          # or you can signup for free at https://snyk.io/login
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: ${{ steps.repo_slug.outputs.result }}
+          args: --file=Dockerfile
 
-    - name: Upload result to GitHub Code Scanning
-      uses: github/codeql-action/upload-sarif@v3
-      with:
-        sarif_file: snyk.sarif
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk.sarif
