@@ -1,7 +1,7 @@
 # CI Toolkit
 
-[![GitHub Super-Linter](https://github.com/yonasBSD/toolkit/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
-![CI](https://github.com/yonasBSD/toolkit/actions/workflows/ci.yml/badge.svg)
+[![Linting](https://github.com/yonasBSD/toolkit/actions/workflows/lint.yml/badge.svg)](https://github.com/yonasBSD/toolkit/actions/workflows/lint.yml)
+[![CI](https://github.com/yonasBSD/toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/yonasBSD/toolkit/actions/workflows/ci.yml)
 
 This action prints `Hello, World!` or `Hello, <who-to-greet>!` to the log. To
 learn how this action was built, see
