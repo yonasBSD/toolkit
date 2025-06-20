@@ -72,8 +72,7 @@ jobs:
 ```
 
 For example workflow runs, check out the
-[Actions tab](https://github.com/yonasBSD/toolkit/actions)!
-:rocket:
+[Actions tab](https://github.com/yonasBSD/toolkit/actions)! :rocket:
 
 ## Inputs
 
@@ -100,8 +99,8 @@ need to perform some initial setup steps before you can test your action.
 
 1. :hammer_and_wrench: Build the container
 
-   Make sure to replace `yonasBSD/toolkit` with an appropriate
-   label for your container.
+   Make sure to replace `yonasBSD/toolkit` with an appropriate label for your
+   container.
 
    ```bash
    docker build -t yonasBSD/toolkit .
@@ -112,7 +111,7 @@ need to perform some initial setup steps before you can test your action.
    You can pass individual environment variables using the `--env` or `-e` flag.
 
    ```bash
-   $ docker run --env INPUT_WHO_TO_GREET="Mona Lisa Octocat" yonasBSD/toolkit 
+   $ docker run --env INPUT_WHO_TO_GREET="Mona Lisa Octocat" yonasBSD/toolkit
    ::notice file=entrypoint.sh,line=7::Hello, Mona Lisa Octocat!
    ```
 
@@ -121,6 +120,6 @@ need to perform some initial setup steps before you can test your action.
    ```bash
    $ echo "INPUT_WHO_TO_GREET=\"Mona Lisa Octocat\"" > ./.env.test
 
-   $ docker run --env-file ./.env.testyonasBSD/toolkit 
+   $ docker run --env-file ./.env.testyonasBSD/toolkit
    ::notice file=entrypoint.sh,line=7::Hello, Mona Lisa Octocat!
    ```
