@@ -52,7 +52,7 @@ FROM cgr.dev/chainguard/wolfi-base:latest
 COPY --from=build /usr/local/bin /usr/local/bin
 RUN chmod +x /usr/local/bin/*
 
-RUN apk update && apk --no-cache add cosign bash curl libxml2
+RUN apk update && apk --no-cache add cosign bash curl libxml2 rust
 
 # Set the working directory inside the container
 WORKDIR /usr/src
