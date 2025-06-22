@@ -1,11 +1,11 @@
 # Set the base image to use for subsequent instructions
 #checkov:skip=CKV_DOCKER_7: allow use of latest tag
-FROM cgr.dev/chainguard/rust:latest AS build
+FROM cgr.dev/chainguard/wolfi-base:latest AS build
 
 LABEL org.opencontainers.image.source=https://github.com/yonasBSD/toolkit
 
 #RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-RUN apk update && apk --no-cache add cosign bash curl
+RUN apk update && apk --no-cache add cosign bash curl rust
 
 # Run curl installs
 RUN mkdir -p /usr/local/bin
@@ -37,6 +37,7 @@ RUN cargo binstall -y --install-path /usr/local/bin cargo-audit
 RUN cargo binstall -y --install-path /usr/local/bin cargo-deny
 RUN cargo binstall -y --install-path /usr/local/bin cargo-license
 RUN cargo binstall -y --install-path /usr/local/bin dirstat-rs
+RUN cargo binstall -y --install-path /usr/local/bin sccache
 
 # Run dra installs
 # Some projects don't have binaries for arch that chainguard/wolfi-base uses
@@ -52,7 +53,17 @@ FROM cgr.dev/chainguard/wolfi-base:latest
 COPY --from=build /usr/local/bin /usr/local/bin
 RUN chmod +x /usr/local/bin/*
 
-RUN apk update && apk --no-cache add cosign bash curl libxml2
+RUN apk update && apk --no-cache add cosign bash curl libxml2 gcc ca-certificates
+
+RUN curl --proto '=https' --tlsv1.3 -sSf https://sh.rustup.rs > rustup-init && \
+    chmod +x rustup-init \
+    && ./rustup-init \
+    -y \
+    --profile minimal \
+    --no-modify-path \
+    --default-toolchain nightly \
+    && mv ~/.cargo/bin/* /usr/local/bin \
+    && rm rustup-init
 
 # Set the working directory inside the container
 WORKDIR /usr/src
