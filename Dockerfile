@@ -71,7 +71,7 @@ RUN curl --proto '=https' --tlsv1.3 -sSf https://sh.rustup.rs > rustup-init && \
 WORKDIR /usr/src
 
 # Copy any source file(s) required for the action
-COPY entrypoint.sh .
+COPY scripts/entrypoint.sh .
 
 # Copy dprint config
 COPY config/dprint.json .
