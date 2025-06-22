@@ -32,6 +32,7 @@ RUN curl -sL -o docker-assets-venom.zip https://github.com/yonasBSD/toolkit/rele
 #RUN cargo install --locked --git https://github.com/devmatteini/dra && mv /root/.cargo/bin/dra /usr/local/bin
 
 # Run cargo-binstall
+RUN cargo binstall -y cargo-about && mv /root/.cargo/bin/cargo-about /usr/local/bin
 RUN cargo binstall -y cargo-audit && mv /root/.cargo/bin/cargo-audit /usr/local/bin
 RUN cargo binstall -y cargo-deny && mv /root/.cargo/bin/cargo-deny /usr/local/bin
 RUN cargo binstall -y cargo-license && mv /root/.cargo/bin/cargo-license /usr/local/bin
