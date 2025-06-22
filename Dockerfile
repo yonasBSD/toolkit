@@ -1,11 +1,11 @@
 # Set the base image to use for subsequent instructions
 #checkov:skip=CKV_DOCKER_7: allow use of latest tag
-FROM cgr.dev/chainguard/wolfi-base:latest AS build
+FROM cgr.dev/chainguard/rust:latest AS build
 
 LABEL org.opencontainers.image.source=https://github.com/yonasBSD/toolkit
 
 #RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-RUN apk update && apk --no-cache add cosign bash curl rust
+RUN apk update && apk --no-cache add cosign bash curl
 
 # Run curl installs
 RUN mkdir -p /usr/local/bin
@@ -52,7 +52,7 @@ FROM cgr.dev/chainguard/wolfi-base:latest
 COPY --from=build /usr/local/bin /usr/local/bin
 RUN chmod +x /usr/local/bin/*
 
-RUN apk update && apk --no-cache add cosign bash curl libxml2 rust
+RUN apk update && apk --no-cache add cosign bash curl libxml2
 
 # Set the working directory inside the container
 WORKDIR /usr/src
