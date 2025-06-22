@@ -32,12 +32,13 @@ RUN curl -sL -o docker-assets-venom.zip https://github.com/yonasBSD/toolkit/rele
 #RUN cargo install --locked --git https://github.com/devmatteini/dra && mv /root/.cargo/bin/dra /usr/local/bin
 
 # Run cargo-binstall
-RUN cargo binstall -y --install-path /usr/local/bin cargo-about
-RUN cargo binstall -y --install-path /usr/local/bin cargo-audit
-RUN cargo binstall -y --install-path /usr/local/bin cargo-deny
-RUN cargo binstall -y --install-path /usr/local/bin cargo-license
-RUN cargo binstall -y --install-path /usr/local/bin dirstat-rs
-RUN cargo binstall -y --install-path /usr/local/bin sccache
+RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-about
+RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-audit
+RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-deny
+RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-license
+RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 dirstat-rs
+RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 sccache
+RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 rsign2
 
 # Run dra installs
 # Some projects don't have binaries for arch that chainguard/wolfi-base uses

@@ -37,6 +37,7 @@ jobs:
             treefmt --version
             pipelight --version
             minijinja --version
+            rsign --version
             cosign version
             cargo-binstall -V
             cargo-deny --version
@@ -69,6 +70,7 @@ jobs:
             treefmt --version
             pipelight --version
             minijinja --version
+            rsign --version
             cosign version
             cargo-binstall -V
             cargo-deny --version
