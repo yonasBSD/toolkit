@@ -15,6 +15,7 @@ RUN curl -fsSL https://taskfile.dev/install.sh > task.sh && sh task.sh -d -b /us
 RUN curl -fsSL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh > trufflehog.sh && sh trufflehog.sh -v -b /usr/local/bin
 RUN curl -fsSL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh > trivy.sh && sh trivy.sh -b /usr/local/bin
 RUN curl -fsSL https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh > binstall.sh && bash binstall.sh && mv /root/.cargo/bin/cargo-binstall /usr/local/bin
+RUN curl -fsSL https://dprint.dev/install.sh | sh && mv ~/.dprint/bin/dprint /usr/local/bin
 
 # Download from release assets
 RUN curl -sL -o docker-assets-rcl.zip https://github.com/yonasBSD/toolkit/releases/latest/download/docker-assets-rcl.zip && unzip -jo docker-assets-rcl.zip -d /usr/local/bin
@@ -70,7 +71,10 @@ RUN curl --proto '=https' --tlsv1.3 -sSf https://sh.rustup.rs > rustup-init && \
 WORKDIR /usr/src
 
 # Copy any source file(s) required for the action
-COPY entrypoint.sh .
+COPY scripts/entrypoint.sh .
+
+# Copy dprint config
+COPY config/dprint.json .
 
 # Configure the container to be run as an executable
 ENTRYPOINT ["/usr/src/entrypoint.sh"]
