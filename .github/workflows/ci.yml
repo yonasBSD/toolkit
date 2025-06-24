@@ -28,6 +28,7 @@ jobs:
             task --version
             trufflehog --version
             trivy --version
+            feluda --version
             kcl --version
             rcl --version
             b3sum --version
@@ -62,6 +63,7 @@ jobs:
             task --version
             trufflehog --version
             trivy --version
+            feluda --version
             kcl --version
             rcl --version
             b3sum --version
