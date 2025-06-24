@@ -155,3 +155,24 @@ jobs:
           asset_path: ./docker-assets-venom.zip
           asset_name: docker-assets-venom.zip
           asset_content_type: application/zip
+
+  upload-feluda:
+    name: Upload Feluda
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build assets
+        run: |
+          cargo install --git https://github.com/anistark/feluda
+          zip docker-assets-feluda.zip ~/.cargo/bin/feluda
+
+      - name: Upload Release Assets
+        id: upload-release-assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./docker-assets-feluda.zip
+          asset_name: docker-assets-feluda.zip
+          asset_content_type: application/zip

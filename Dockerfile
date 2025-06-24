@@ -25,6 +25,7 @@ RUN curl -sL -o docker-assets-hurl.zip https://github.com/yonasBSD/toolkit/relea
 RUN curl -sL -o docker-assets-dra.zip https://github.com/yonasBSD/toolkit/releases/latest/download/docker-assets-dra.zip && unzip -jo docker-assets-dra.zip -d /usr/local/bin
 RUN curl -sL -o docker-assets-cargo-auditable.zip https://github.com/yonasBSD/toolkit/releases/latest/download/docker-assets-cargo-auditable.zip && unzip -jo docker-assets-cargo-auditable.zip -d /usr/local/bin
 RUN curl -sL -o docker-assets-venom.zip https://github.com/yonasBSD/toolkit/releases/latest/download/docker-assets-venom.zip && unzip -jo docker-assets-venom.zip -d /usr/local/bin
+RUN curl -sL -o docker-assets-feluda.zip https://github.com/yonasBSD/toolkit/releases/latest/download/docker-assets-feluda.zip && unzip -jo docker-assets-feluda.zip -d /usr/local/bin
 
 # Run cargo installs
 #RUN cargo install --git https://github.com/ruuda/rcl rcl && mv /root/.cargo/bin/rcl /usr/local/bin
