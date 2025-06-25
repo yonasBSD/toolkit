@@ -29,6 +29,7 @@ jobs:
             trufflehog --version
             trivy --version
             feluda --version
+            uv --version
             kcl --version
             rcl --version
             b3sum --version
@@ -64,6 +65,7 @@ jobs:
             trufflehog --version
             trivy --version
             feluda --version
+            uv --version
             kcl --version
             rcl --version
             b3sum --version
