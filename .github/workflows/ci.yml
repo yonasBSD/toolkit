@@ -30,6 +30,7 @@ jobs:
             trivy --version
             feluda --version
             uv --version
+            mise --version
             kcl --version
             rcl --version
             b3sum --version
@@ -66,6 +67,7 @@ jobs:
             trivy --version
             feluda --version
             uv --version
+            mise --version
             kcl --version
             rcl --version
             b3sum --version

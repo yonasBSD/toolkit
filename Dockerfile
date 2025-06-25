@@ -16,6 +16,7 @@ RUN curl -fsSL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main
 RUN curl -fsSL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh > trivy.sh && sh trivy.sh -b /usr/local/bin
 RUN curl -fsSL https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh > binstall.sh && bash binstall.sh && mv /root/.cargo/bin/cargo-binstall /usr/local/bin
 RUN curl -fsSL https://dprint.dev/install.sh | sh && mv ~/.dprint/bin/dprint /usr/local/bin
+RUN curl -fsSL https://mise.run | sh && mv ~/.local/bin/mise /usr/local/bin
 
 # Download from release assets
 RUN curl -sL -o docker-assets-rcl.zip https://github.com/yonasBSD/toolkit/releases/latest/download/docker-assets-rcl.zip && unzip -jo docker-assets-rcl.zip -d /usr/local/bin
