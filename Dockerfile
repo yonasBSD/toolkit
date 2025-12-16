@@ -5,7 +5,7 @@ FROM cgr.dev/chainguard/wolfi-base:latest AS build
 LABEL org.opencontainers.image.source=https://github.com/yonasBSD/toolkit
 
 #RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-RUN apk update && apk --no-cache add cosign bash curl rust
+RUN apk update && apk --no-cache add cosign bash curl rust ca-certificates
 
 # Run curl installs
 RUN mkdir -p /usr/local/bin
