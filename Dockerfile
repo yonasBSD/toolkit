@@ -9,7 +9,15 @@ RUN apk update && apk --no-cache add cosign bash curl rust
 
 # Run curl installs
 RUN mkdir -p /usr/local/bin
-RUN curl -fsSL https://get.comtrya.dev > comtrya.sh && sh comtrya.sh
+
+# https://get.comtrya.dev SSL cert expired on Sept 7, 2025.
+# Use local copy of install script.
+#RUN curl -fsSL https://get.comtrya.dev > comtrya.sh && sh comtrya.sh
+
+WORKDIR /app
+COPY scripts/comtrya.sh .
+RUN sh comtrya.sh
+
 RUN curl -fsSL https://just.systems/install.sh > just.sh && bash just.sh --to /usr/local/bin
 RUN curl -fsSL https://taskfile.dev/install.sh > task.sh && sh task.sh -d -b /usr/local/bin
 RUN curl -fsSL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh > trufflehog.sh && sh trufflehog.sh -v -b /usr/local/bin
