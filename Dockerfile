@@ -65,7 +65,7 @@ FROM cgr.dev/chainguard/wolfi-base:latest
 COPY --from=build /usr/local/bin /usr/local/bin
 RUN chmod +x /usr/local/bin/*
 
-RUN apk update && apk --no-cache add git cosign bash curl libxml2 gcc ca-certificates uv
+RUN apk update && apk --no-cache add git cosign bash curl libxml2 gcc ca-certificates uv xz
 
 RUN curl --proto '=https' --tlsv1.3 -sSf https://sh.rustup.rs > rustup-init && \
     chmod +x rustup-init \
