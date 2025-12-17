@@ -163,7 +163,7 @@ jobs:
     steps:
       - name: Build assets
         run: |
-          cargo install --git https://github.com/anistark/feluda
+          cargo install --git https://github.com/anistark/feluda feluda
           zip docker-assets-feluda.zip ~/.cargo/bin/feluda
 
       - name: Upload Release Assets
