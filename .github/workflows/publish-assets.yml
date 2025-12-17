@@ -178,7 +178,7 @@ jobs:
           asset_content_type: application/zip
 
   upload-cargo-license:
-    name: Upload cargo-license
+    name: Upload Cargo License
     runs-on: ubuntu-latest
 
     steps:
