@@ -62,6 +62,9 @@ RUN dra download --automatic numtide/treefmt && mkdir treefmt && tar -xvf treefm
 #checkov:skip=CKV_DOCKER_7: allow use of latest tag
 FROM cgr.dev/chainguard/wolfi-base:latest
 
+ENV CARGO_HOME=/usr/local/bin
+ENV RUSTUP_HOME=/usr/local/rustup
+
 COPY --from=build /usr/local/bin /usr/local/bin
 RUN chmod +x /usr/local/bin/*
 
@@ -74,7 +77,6 @@ RUN curl --proto '=https' --tlsv1.3 -sSf https://sh.rustup.rs > rustup-init && \
     --profile minimal \
     --no-modify-path \
     --default-toolchain nightly \
-    && mv ~/.cargo/bin/* /usr/local/bin \
     && rm rustup-init
 
 # Set the working directory inside the container
