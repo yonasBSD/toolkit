@@ -46,6 +46,7 @@ jobs:
             cargo-binstall -V
             cargo-deny --version
             cargo-audit --version
+            cargo version
             ls /usr/local/bin/cargo-auditable
             ls /usr/local/bin/cargo-license
 
@@ -82,5 +83,6 @@ jobs:
             cargo-binstall -V
             cargo-deny --version
             cargo-audit --version
+            cargo version
             ls /usr/local/bin/cargo-auditable
             ls /usr/local/bin/cargo-license

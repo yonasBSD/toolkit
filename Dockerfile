@@ -62,7 +62,7 @@ RUN dra download --automatic numtide/treefmt && mkdir treefmt && tar -xvf treefm
 #checkov:skip=CKV_DOCKER_7: allow use of latest tag
 FROM cgr.dev/chainguard/wolfi-base:latest
 
-ENV CARGO_HOME=/usr/local/bin
+ENV CARGO_HOME=/usr/local
 ENV RUSTUP_HOME=/usr/local/rustup
 
 COPY --from=build /usr/local/bin /usr/local/bin
