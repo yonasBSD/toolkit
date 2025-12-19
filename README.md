@@ -41,8 +41,8 @@ jobs:
 
     steps:
       # Change @main to a specific commit SHA or version tag, e.g.:
-      # yonasBSD/toolkit@e76147da8e5c81eaf017dede5645551d4b94427b
-      # yonasBSD/toolkit@v1.2.3
+      # yonasBSD/toolkit@09d048b7fab3d6ff0e5708a6ebee59dc4decd117
+      # yonasBSD/toolkit@v0.1.0
       - name: Print to Log
         id: print-to-log
         uses: yonasBSD/toolkit@main
