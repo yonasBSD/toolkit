@@ -18,5 +18,3 @@ runs:
   image: docker://yonasbsd/toolkit:latest
   env:
     INPUT_RUN: ${{ inputs.run }}
-    CARGO_HOME: /usr/local/bin
-    RUSTUP_HOME: /usr/local/rustup
