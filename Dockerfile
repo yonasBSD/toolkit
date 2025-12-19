@@ -47,7 +47,6 @@ RUN curl -sL -o docker-assets-cargo-license.zip https://github.com/yonasBSD/tool
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-about
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-audit
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-deny
-RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 dirstat-rs
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 sccache
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 rsign2
 
@@ -66,6 +65,7 @@ ENV CARGO_HOME=/usr/local
 ENV RUSTUP_HOME=/usr/local/rustup
 
 COPY --from=build /usr/local/bin /usr/local/bin
+
 RUN chmod +x /usr/local/bin/*
 
 RUN apk update && apk --no-cache add git cosign bash curl libxml2 gcc ca-certificates uv xz
@@ -87,6 +87,9 @@ COPY scripts/entrypoint.sh .
 
 # Copy dprint config
 COPY config/dprint.json .
+
+# Mark GitHub workspace as safe for all future runs
+RUN git config --system --add safe.directory /github/workspace
 
 # Configure the container to be run as an executable
 ENTRYPOINT ["/usr/src/entrypoint.sh"]
