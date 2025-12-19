@@ -2,8 +2,8 @@
 
 # shellcheck disable=SC3000-SC4000
 IFS=$'\n'
-CARGO_HOME=/usr/local/bin
-RUSTUP_HOME=/usr/local/rustup
+export CARGO_HOME=/usr/local/bin
+export RUSTUP_HOME=/usr/local/rustup
 
 # Use workflow commands to do things like set debug messages
 printf '::notice file=entrypoint.sh,line=4::%s' "$INPUT_RUN"
