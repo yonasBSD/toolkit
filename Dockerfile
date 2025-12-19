@@ -88,5 +88,8 @@ COPY scripts/entrypoint.sh .
 # Copy dprint config
 COPY config/dprint.json .
 
+# Mark GitHub workspace as safe for all future runs
+RUN git config --system --add safe.directory /github/workspace
+
 # Configure the container to be run as an executable
 ENTRYPOINT ["/usr/src/entrypoint.sh"]
