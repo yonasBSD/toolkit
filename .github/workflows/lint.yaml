@@ -1,0 +1,204 @@
+name: Lint Codebase
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  actions: write
+  packages: read
+  statuses: write
+
+jobs:
+  lint:
+    name: Lint Codebase
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          token: ${{ secrets.WORKFLOW_TOKEN }}
+
+      - name: Prettier
+        uses: AbdulRehman-1/pr-prettier@initial
+        env:
+          GITHUB_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
+        with:
+          commit_message: 'fix: Prettified Code!'
+          prettier_options: --write **/*.{js,md,yaml,yml}
+          github_token: ${{ secrets.WORKFLOW_TOKEN }}
+
+      - name: Checkout
+        id: super-linter-checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+  spellcheck:
+    name: Spellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: reviewdog/action-typos@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@nightly
+
+      - name: Install cargo-binstall
+        uses: cargo-bins/cargo-binstall@main
+
+      - name: Install typos-cli
+        run: cargo binstall -y typos-cli
+
+      - name: Search for typos
+        run: typos
+
+  linkcheck:
+    name: Markdown Link Check
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v6
+      - uses: tcort/github-action-markdown-link-check@v1
+        with:
+          file: README.md
+
+  conventional-commits:
+    name: Conventional Commits
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      # Checkout for pull_request events — use PR HEAD SHA
+      - name: Checkout PR HEAD
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      # Checkout for push events — normal behavior
+      - name: Checkout default ref
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@nightly
+
+      - name: Install cargo-binstall
+        uses: cargo-bins/cargo-binstall@main
+
+      - name: Install Cocogitto
+        run: cargo binstall -y cocogitto
+
+      - name: Run Conventional Commits check
+        id: cogcheck
+        run: |
+          set +e
+
+          cog check ${{ github.event.pull_request.base.sha }}..${{ github.sha }} > result.txt 2>&1
+
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+          echo "details<<EOF" >> $GITHUB_OUTPUT
+          cat result.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          exit 0
+
+      - name: Add PR comment if check fails
+        if:
+          ${{ github.event_name == 'pull_request' &&
+          steps.cogcheck.outputs.exit_code != '0' }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: conventional-commits
+          message: |
+            🚨 **Conventional Commits check failed!**
+
+            Your commit messages don’t comply with the Conventional Commits spec.
+
+            <details>
+            <summary>Details</summary>
+
+            ```
+            ${{ steps.cogcheck.outputs.details }}
+            ```
+            </details>
+
+            ### 💡 How to fix
+            You can rewrite your commit messages using interactive rebase:
+
+            ```bash
+            git rebase -i origin/main
+            ```
+
+            - Change `pick` to `reword` for commits you need to fix.
+            - Edit the commit message to follow Conventional Commits (e.g. `feat: add login`, `fix: correct typo`).
+            - Save and continue the rebase.
+
+            If you only need to fix the latest commit:
+
+            ```bash
+            git commit --amend -m "feat: update README with installation guide"
+            ```
+
+            Then force-push your branch:
+
+            ```bash
+            git push --force
+            ```
+
+            ✅ Once you fix your commit messages, re-run the PR checks and this warning will disappear.
+
+  todo-list:
+    name: Remaining Todos
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@nightly
+
+      - name: Install cargo-binstall
+        uses: cargo-bins/cargo-binstall@main
+
+      - name: Install Cocogitto
+        run: cargo binstall -y todo-tree
+
+      - name: List Todos
+        run: |
+          SUMMARY_FILE=$GITHUB_STEP_SUMMARY
+          TODO_OUTPUT=$(todo-tree list)
+
+          # Check if output is empty and provide a clear success message if so.
+          if [ "$TODO_OUTPUT" = "No TODO items found." ]; then
+            echo "## 🌳 TODO-Tree Code Review Report" >> $SUMMARY_FILE
+            echo "" >> $SUMMARY_FILE
+            echo "✅ **Success**" >> $SUMMARY_FILE
+            exit 0
+          fi
+
+          # 1. Add a descriptive Markdown header to the Summary page
+          echo "## 🌳 TODO-Tree Code Review Report" >> $SUMMARY_FILE
+          echo "" >> $SUMMARY_FILE
+
+          # 2. Append the raw output directly (preserves ANSI colors)
+          todo-tree list --case-sensitive >> $SUMMARY_FILE
+          todo-tree stats >> $SUMMARY_FILE
+
+          echo "\`\`\`text" >> $SUMMARY_FILE
