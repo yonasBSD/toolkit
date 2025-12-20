@@ -47,6 +47,7 @@ RUN curl -sL -o docker-assets-cargo-license.zip https://github.com/yonasBSD/tool
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-about
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-audit
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-deny
+RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-nextest
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 sccache
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 rsign2
 
