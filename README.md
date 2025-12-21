@@ -65,6 +65,7 @@ jobs:
             minijinja --version
             cosign version
             llvm-cov --version
+            cargo llvm-cov --version
             cargo-binstall -V
             cargo-deny --version
             cargo-audit --version

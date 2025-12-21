@@ -49,6 +49,7 @@ RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-deny
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-nextest
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-binutils
+RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-llvm-cov
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo2junit
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 sccache
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 rsign2
