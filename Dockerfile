@@ -48,6 +48,8 @@ RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-audit
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-deny
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-nextest
+RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-binutils
+RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo-llvm-cov
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 cargo2junit
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 sccache
 RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 rsign2
@@ -81,8 +83,8 @@ RUN curl --proto '=https' --tlsv1.3 -sSf https://sh.rustup.rs > rustup-init && \
     --default-toolchain nightly \
     && rm rustup-init
 
-# Add 'cargo fmt' and 'cargo clippy'
-RUN rustup component add rustfmt clippy
+# Add 'cargo fmt', 'cargo clippy', and llvm-tools
+RUN rustup component add rustfmt clippy llvm-tools
 
 # Set the working directory inside the container
 WORKDIR /usr/src
