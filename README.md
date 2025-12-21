@@ -68,8 +68,12 @@ jobs:
             cargo-deny --version
             cargo-audit --version
             cargo-nextest --version
+            cargo version
+            cargo fmt --version
+            cargo clippy --version
             ls /usr/local/bin/cargo-auditable
             ls /usr/local/bin/cargo-license
+            ls /usr/local/bin/cargo2junit
 ```
 
 For example workflow runs, check out the

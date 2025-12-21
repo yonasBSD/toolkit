@@ -48,8 +48,11 @@ jobs:
             cargo-audit --version
             cargo-nextest --version
             cargo version
+            cargo fmt --version
+            cargo clippy --version
             ls /usr/local/bin/cargo-auditable
             ls /usr/local/bin/cargo-license
+            ls /usr/local/bin/cargo2junit
 
   test-action-remote:
     name: GitHub Actions Test (Docker Hub)
@@ -86,5 +89,8 @@ jobs:
             cargo-audit --version
             cargo-nextest --version
             cargo version
+            cargo fmt --version
+            cargo clippy --version
             ls /usr/local/bin/cargo-auditable
             ls /usr/local/bin/cargo-license
+            ls /usr/local/bin/cargo2junit
