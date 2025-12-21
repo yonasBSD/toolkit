@@ -64,10 +64,12 @@ jobs:
             pipelight --version
             minijinja --version
             cosign version
+            llvm-cov --version
             cargo-binstall -V
             cargo-deny --version
             cargo-audit --version
             cargo-nextest --version
+            cargo-cov --version
             cargo version
             cargo fmt --version
             cargo clippy --version
