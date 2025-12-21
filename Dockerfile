@@ -81,6 +81,9 @@ RUN curl --proto '=https' --tlsv1.3 -sSf https://sh.rustup.rs > rustup-init && \
     --default-toolchain nightly \
     && rm rustup-init
 
+# Add 'cargo fmt' and 'cargo clippy'
+RUN rustup component add rustfmt clippy
+
 # Set the working directory inside the container
 WORKDIR /usr/src
 
