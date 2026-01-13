@@ -72,7 +72,7 @@ COPY --from=build /usr/local/bin /usr/local/bin
 
 RUN chmod +x /usr/local/bin/*
 
-RUN apk update && apk --no-cache add git cosign bash curl libxml2 gcc ca-certificates uv xz llvm-21 clang-21
+RUN apk update && apk --no-cache add git cosign bash curl libxml2 gcc llvm-21 clang-21 cmake ca-certificates uv xz
 
 RUN curl --proto '=https' --tlsv1.3 -sSf https://sh.rustup.rs > rustup-init && \
     chmod +x rustup-init \

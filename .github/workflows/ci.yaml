@@ -43,6 +43,7 @@ jobs:
             minijinja --version
             rsign --version
             cosign version
+            cmake --version
             llvm-cov --version
             cargo llvm-cov --version
             cargo-binstall -V
@@ -87,6 +88,7 @@ jobs:
             minijinja --version
             rsign --version
             cosign version
+            cmake --version
             llvm-cov --version
             cargo llvm-cov --version
             cargo-binstall -V
