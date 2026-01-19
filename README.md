@@ -70,6 +70,7 @@ jobs:
             cargo-deny --version
             cargo-audit --version
             cargo-nextest --version
+            cargo-insta --version
             cargo-cov --version
             cargo version
             cargo fmt --version
