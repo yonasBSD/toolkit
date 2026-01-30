@@ -4,7 +4,7 @@ FROM cgr.dev/chainguard/wolfi-base:latest AS build
 
 LABEL org.opencontainers.image.source=https://github.com/yonasBSD/toolkit
 
-#RUN echo "https://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+# Install build dependencies
 RUN apk update && apk --no-cache add cosign bash curl rust build-base
 
 # Run curl installs
@@ -59,9 +59,15 @@ RUN cargo binstall -y --install-path /usr/local/bin --min-tls-version 1.3 rsign2
 # Some projects don't have binaries for arch that chainguard/wolfi-base uses
 RUN dra download --automatic --install --output /usr/local/bin/b3sum BLAKE3-team/BLAKE3
 RUN dra download --automatic typst/typst && mkdir typst && tar -xvf typst*tar.xz --directory typst --strip-components 1 && mv typst/typst /usr/local/bin && rm -rf typst
-RUN dra download --automatic mitsuhiko/minijinja && mkdir minijinja && tar -xvf minijinja*tar.xz --directory minijinja --strip-components 1 && mv minijinja/minijinja-cli /usr/local/bin/minijinja && rm -rf minijinja
 RUN dra download --automatic numtide/treefmt && mkdir treefmt && tar -xvf treefmt*tar.gz --directory treefmt && mv treefmt/treefmt /usr/local/bin && rm -rf treefmt
 
+# Download minijinja, keep original binary name, and create symlink
+RUN dra download --automatic mitsuhiko/minijinja && \
+    mkdir minijinja && \
+    tar -xvf minijinja*tar.xz --directory minijinja --strip-components 1 && \
+    mv minijinja/minijinja-cli /usr/local/bin/minijinja-cli && \
+    ln -s /usr/local/bin/minijinja-cli /usr/local/bin/minijinja && \
+    rm -rf minijinja
 
 #checkov:skip=CKV_DOCKER_7: allow use of latest tag
 FROM cgr.dev/chainguard/wolfi-base:latest
