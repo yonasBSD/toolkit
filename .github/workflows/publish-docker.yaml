@@ -51,7 +51,7 @@ jobs:
           script: return '${{ github.repository }}'.toLowerCase()
 
       - name: Build and push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           platforms: linux/amd64
           push: true
